@@ -40,7 +40,7 @@
 		<div class="encabezado">
 			<h2>Nombre de la Categoría: ${categoria.nombre}</h2>
 			<p>Tipo: ${categoria.tipo }</p>
-			<p>Total en el mes actual: $ ${categoria.Total(mes)}</p>
+			<p>Total en el mes actual:  ${total}</p>
 		</div>
 	</div>
 

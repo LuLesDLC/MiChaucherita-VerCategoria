@@ -24,7 +24,6 @@ public class DashboardController extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-    	
     	ruteador(request, response);
     }
 
@@ -49,8 +48,6 @@ public class DashboardController extends HttpServlet {
 		
 	}
 	
-
-	
 	private void verMovimientos(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		
@@ -58,27 +55,20 @@ public class DashboardController extends HttpServlet {
 
 	private void verCategoria(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("mes") == null) {
+		if (session.getAttribute("mes") == null || session.getAttribute("anio") == null) {
 		    session.setAttribute("mes", -1);
-		} 
+		    session.setAttribute("anio", -1);
+		}
 		int mes = Integer.parseInt(session.getAttribute("mes").toString());
+		int anio = Integer.parseInt(session.getAttribute("anio").toString()); 
 		int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
 		Categoria categoria = Categoria.getById(idCategoria);
-		List<Movimiento> movimientos = Movimiento.getMovimientosByCategoriaByMonth(idCategoria,mes);
-		double total = categoria.Total(mes);
+		List<Movimiento> movimientos = Movimiento.getMovimientosByCategoriaByMes(anio, mes, idCategoria);
+		double total = Movimiento.getMontoTotalFromMovimientos(movimientos);
 		request.setAttribute("categoria", categoria);
 		request.setAttribute("movimientos", movimientos);
 		request.setAttribute("total", total);
 		request.getRequestDispatcher("/jsp/categoria.jsp").forward(request, response);
-
-	}
-
-	private void filtrarPorMesContable(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int mes = Integer.parseInt(request.getParameter("mes"));
-		HttpSession session = request.getSession();
-		session.setAttribute("mes", mes);
-	
-		verCategoria(request, response);		
 	}
 
 	private void verCuenta(HttpServletRequest request, HttpServletResponse response) {
@@ -88,12 +78,14 @@ public class DashboardController extends HttpServlet {
 
 	private void verDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("mes") == null) {
+		if (session.getAttribute("mes") == null || session.getAttribute("anio") == null) {
 		    session.setAttribute("mes", -1);
+		    session.setAttribute("anio", -1);
 		} 
 		int mes = Integer.parseInt(session.getAttribute("mes").toString());
+		int anio = Integer.parseInt(session.getAttribute("anio").toString()); 
 		List<Cuenta> cuentas = Cuenta.getSumarized();
-		List<Categoria> categorias = Categoria.getSumarizedByMonth(mes);
+		List<Categoria> categorias = Categoria.getSumarizedByDate(mes, anio);
 		List<Movimiento> movimientos = Movimiento.getAll();
 	
 		request.setAttribute("cuentas", cuentas);

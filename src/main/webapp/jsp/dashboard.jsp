@@ -16,14 +16,18 @@
 
 <body>
 
-<c:choose>
-    <c:when test="${empty sessionScope.mes}">
-        <c:set var="mes" value="-1" /> <!-- Si el mes en la sesión está vacío, asigna -1 -->
-    </c:when>
-    <c:otherwise>
-        <c:set var="mes" value="${sessionScope.mes}" /> <!-- Si el mes en la sesión no está vacío, utiliza el valor de la sesión -->
-    </c:otherwise>
-</c:choose>
+	<c:choose>
+		<c:when test="${empty sessionScope.mes}">
+			<c:set var="mes" value="-1" />
+			<c:set var="anio" value="-1" />
+			<!-- Si el mes y el año en la sesión están vacíos, asigna -1 -->
+		</c:when>
+		<c:otherwise>
+			<c:set var="mes" value="${sessionScope.mes}" />
+			<c:set var="anio" value="${sessionScope.mes}" />
+			<!-- Si el mes en la sesión no está vacío, utiliza el valor de la sesión -->
+		</c:otherwise>
+	</c:choose>
 
 	<header class="header_pagina_principal">
 		<button class="boton boton2 usuario_shortcut">
@@ -54,9 +58,6 @@
 					style="color: white;" width="32"></iconify-icon>
 				<h1>3000.00</h1>
 			</main>
-
-
-
 		</div>
 
 		<div class="contenedor-resumen">
@@ -95,88 +96,88 @@
 						</div>
 					</c:forEach>
 
-
 				</main>
 
 			</div>
-
 
 			<!-- CATEGORIAS -->
 			<div class="contenedor_default">
 
 				<header class="header_contenedor">
 					<h3>Resumen por categoría</h3>
-
 				</header>
 				<main class="clasificacion">
-				<c:forEach items="${categorias}" var="categoria">
-					<div class="card-cuenta">
-						<div>
-							<div class=" cuenta_icono">
-								<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+					<c:forEach items="${categorias}" var="categoria">
+						<div class="card-cuenta">
+							<div>
+								<div class=" cuenta_icono">
+									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+								</div>
+								<h4>${categoria.nombre}</h4>
+								<p>${categoria.getMontoTotalMes(mes, anio)}</p>
 							</div>
-							<h4>${categoria.nombre}</h4>
-							<p>${categoria.Total(mes)}</p>
-						</div>
-						<div class="botones_transacciones">
+							<div class="botones_transacciones">
 
-							<a href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}"> <iconify-icon
-									icon="ph:arrow-down-bold" width="18"></iconify-icon> <span
-								class="texto_boton">Movimientos</span>
-							</a>
+								<a
+									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
+									<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
+									<span class="texto_boton">Movimientos</span>
+								</a>
 
+							</div>
 						</div>
-					</div>
-					
-</c:forEach>
+
+					</c:forEach>
 				</main>
 			</div>
+			
+		</div>
 
-			<!-- TRANSACCIONES RECIENTES -->
-			<div class="contenedor_default grid_abajo">
+		<!-- TRANSACCIONES RECIENTES -->
+		<div class="contenedor_default grid_abajo">
 
-				<header class="header_contenedor">
-					<h3>Movimientos</h3>
-				</header>
+			<header class="header_contenedor">
+				<h3>Movimientos</h3>
+			</header>
 
-				<main id="transacciones" class="mostrar">
-					<c:forEach items="${movimientos}" var="movimiento">
+			<main id="transacciones" class="mostrar">
+				<c:forEach items="${movimientos}" var="movimiento">
 
-						<div class="transaccion">
-							<div class="transaccion_icono">
-								<iconify-icon class="icono deposito_color"
-									icon="ph:arrow-down-bold" width="18"></iconify-icon>
+					<div class="transaccion">
+						<div class="transaccion_icono">
+							<iconify-icon class="icono deposito_color"
+								icon="ph:arrow-down-bold" width="18"></iconify-icon>
+						</div>
+						<div class="id_transaccion">${movimiento.id}</div>
+						<div class="transaccion_info">
+							<p>${movimiento.fecha}</p>
+						</div>
+
+						<div class="cuenta">
+							<div class="cuenta_icono">
+								<iconify-icon class="icono" icon="mdi:bank" width="20"></iconify-icon>
 							</div>
-							<div class="id_transaccion">${movimiento.id}</div>
-							<div class="transaccion_info">
-								<p>${movimiento.fecha}</p>
-							</div>
+							<c:choose>
+								<c:when test="${not empty movimiento.origen}">
+									<p>${movimiento.origen.nombre}</p>
+								</c:when>
+								<c:otherwise>
+									<p>${movimiento.destino.nombre}</p>
+								</c:otherwise>
+							</c:choose>
+						</div>
 
-							<div class="cuenta">
-								<div class="cuenta_icono">
-									<iconify-icon class="icono" icon="mdi:bank" width="20"></iconify-icon>
-								</div>
-								<c:choose>
-									<c:when test="${not empty movimiento.origen}">
-										<p>${movimiento.origen.nombre}</p>
-									</c:when>
-									<c:otherwise>
-										<p>${movimiento.destino.nombre}</p>
-									</c:otherwise>
-								</c:choose>
-								</div>
+						<div class="concepto">
+							<p>${movimiento.concepto}</p>
+						</div>
 
-								<div class="concepto">
-									<p>${movimiento.concepto}</p>
-								</div>
-
-								<div class="transaccion_monto">
-									<h4>${movimiento.monto}</h4>
-								</div>
-							</div>
-					</c:forEach>
-					>
-			</div>
+						<div class="transaccion_monto">
+							<h4>${movimiento.monto}</h4>
+						</div>
+					</div>
+				</c:forEach>
+			</main>
+		</div>
 	</main>
 </body>
 

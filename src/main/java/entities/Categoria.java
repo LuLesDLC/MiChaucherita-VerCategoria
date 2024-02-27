@@ -57,8 +57,6 @@ public class Categoria implements Serializable {
     @Enumerated
     private TipoMovimiento tipo;
     
-
-    
     public Integer getId() {
 		return id;
 	}
@@ -83,29 +81,40 @@ public class Categoria implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public double Total(int mes) {
-		return obtenerSumaMovimientosPorCategoriaYMes(this.id,mes);
-	}
-
-
-
-
-
-
     public static Categoria getById(int idCategoria) {
     	EntityManager em = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
     	return em.find(Categoria.class, idCategoria);
     }
 
 
-    public static List<Categoria> getSumarizedByMonth(int mes) {
+    public static List<Categoria> getSumarizedByDate(int mes, int anio) {
         EntityManager entityManager = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
-        Query query = entityManager.createQuery("SELECT DISTINCT m.categoria FROM Movimiento m WHERE FUNCTION('MONTH', m.fecha) = :mes");
-        query.setParameter("mes", obtenerMes(mes));
+        Query query = entityManager.createQuery("SELECT DISTINCT m.categoria FROM Movimiento m WHERE (FUNCTION('MONTH', m.fecha) = :mes AND FUNCTION('YEAR', m.fecha) = :anio)");
+        query.setParameter("mes", obtenerMesCorrecto(mes));
+        query.setParameter("anio", obtenerAnioCorrecto(anio));
         List<Categoria> categorias = (List<Categoria>) query.getResultList();
         return categorias;
     }
-    @SuppressWarnings("unchecked")
+    
+    public static int obtenerMesCorrecto(int mes) {
+        if (mes != -1) {
+        	return mes;
+        }
+        Calendar calendar = Calendar.getInstance();
+        int mesActual = calendar.get(Calendar.MONTH) + 1; 
+        return mesActual;
+    }
+    
+    public static int obtenerAnioCorrecto(int anio) {
+        if (anio != -1) {
+        	return anio;
+        }
+        Calendar calendar = Calendar.getInstance();
+        int anioActual = calendar.get(Calendar.YEAR); 
+        return anioActual;
+	}
+
+	@SuppressWarnings("unchecked")
 	public static List<Categoria> getAllOfIngresoType() {
     	EntityManager em = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
     	String consultaJPQL = "SELECT t FROM Categoria t WHERE t.tipo= :mitipo";
@@ -116,27 +125,19 @@ public class Categoria implements Serializable {
     	
     }
 
-
-    private static double obtenerSumaMovimientosPorCategoriaYMes(int idCategoria, int mes) {
+    public double getMontoTotalMes(int mes, int anio) {
         EntityManager entityManager = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
         TypedQuery<Double> query = entityManager.createQuery(
                 "SELECT SUM(m.monto) FROM Movimiento m " +
                         "WHERE m.categoria.id = :idCategoria " +
-                        "AND FUNCTION('MONTH', m.fecha) = :mes",
+                        "AND FUNCTION('MONTH', m.fecha) = :mes " +
+                        "AND FUNCTION('YEAR', m.fecha) = :anio",
                 Double.class);
-        query.setParameter("idCategoria", idCategoria);
-        query.setParameter("mes", obtenerMes(mes));
+        query.setParameter("idCategoria", this.id);
+        query.setParameter("mes", obtenerMesCorrecto(mes));
+        query.setParameter("anio", obtenerAnioCorrecto(anio));
         Double sumaMovimientos = query.getSingleResult();
         return sumaMovimientos != null ? sumaMovimientos : 0.0;
-    }
-    
-    public static int obtenerMes(int mes) {
-        if (mes != -1) {
-        	return mes;
-        }
-        Calendar calendar = Calendar.getInstance();
-        int mesActual = calendar.get(Calendar.MONTH) + 1; 
-        return mesActual;
     }
 
 }

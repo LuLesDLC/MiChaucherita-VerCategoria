@@ -1,12 +1,9 @@
 package PruebasUnitarias;
 
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
-
 import entities.Categoria;
 
 class CategoriaTest {

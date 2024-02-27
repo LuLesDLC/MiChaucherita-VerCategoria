@@ -134,16 +134,23 @@ public class Movimiento implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Movimiento> getMovimientosByCategoriaByMonth(int idCategoria, int mes) {
+	public static List<Movimiento> getMovimientosByCategoriaByMes(int anio, int mes, int idCategoria) {
 		EntityManager em = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
-
 		Query query = em.createQuery(
-				"SELECT m FROM Movimiento m WHERE m.categoria.id = :idCategoria AND FUNCTION('MONTH', m.fecha) = :mes ORDER BY m.fecha DESC");
+				"SELECT m FROM Movimiento m WHERE (m.categoria.id = :idCategoria AND FUNCTION('MONTH', m.fecha) = :mes AND FUNCTION('YEAR', m.fecha) = :anio) ORDER BY m.fecha DESC");
 		query.setParameter("idCategoria", idCategoria);
-		query.setParameter("mes",Categoria.obtenerMes(mes));
+		query.setParameter("mes",Categoria.obtenerMesCorrecto(mes));
+		query.setParameter("anio",Categoria.obtenerAnioCorrecto(anio));
 		List<Movimiento> movimientos = query.getResultList();
 		return movimientos;
 	}
 	
+	public static double getMontoTotalFromMovimientos(List<Movimiento> movimientos) {
+		double suma = 0;
+		for (Movimiento movimiento: movimientos) {
+			suma += movimiento.monto;
+		}
+		return suma;
+	}
 
 }
