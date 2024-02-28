@@ -106,8 +106,15 @@
 				<header class="header_contenedor">
 					<h3>Resumen por categoría</h3>
 				</header>
+				
+				<div>
+					<h4>Categorías de Ingreso</h4>
+					
+				</div>
 				<main class="clasificacion">
-					<c:forEach items="${categorias}" var="categoria">
+				
+				
+					<c:forEach items="${categoriasIngreso}" var="categoria">
 						<div class="card-cuenta">
 							<div>
 								<div class=" cuenta_icono">
@@ -129,6 +136,69 @@
 
 					</c:forEach>
 				</main>
+				
+				<div>
+					<h4>Categorías de Egreso</h4>
+					
+				</div>
+				
+				<main class="clasificacion">
+				
+				
+					<c:forEach items="${categoriasEgreso}" var="categoria">
+						<div class="card-cuenta">
+							<div>
+								<div class=" cuenta_icono">
+									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+								</div>
+								<h4>${categoria.nombre}</h4>
+								<p>${categoria.getMontoTotalMes(mes, anio)}</p>
+							</div>
+							<div class="botones_transacciones">
+
+								<a
+									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
+									<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
+									<span class="texto_boton">Movimientos</span>
+								</a>
+
+							</div>
+						</div>
+
+					</c:forEach>
+				</main>
+				
+				<div>
+					<h4>Categorías de Transferencia</h4>
+					
+				</div>
+				
+				<main class="clasificacion">
+				
+				
+					<c:forEach items="${categoriasTransferencia}" var="categoria">
+						<div class="card-cuenta">
+							<div>
+								<div class=" cuenta_icono">
+									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+								</div>
+								<h4>${categoria.nombre}</h4>
+								<p>${categoria.getMontoTotalMes(mes, anio)}</p>
+							</div>
+							<div class="botones_transacciones">
+
+								<a
+									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
+									<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
+									<span class="texto_boton">Movimientos</span>
+								</a>
+
+							</div>
+						</div>
+
+					</c:forEach>
+				</main>
+				
 			</div>
 			
 		</div>

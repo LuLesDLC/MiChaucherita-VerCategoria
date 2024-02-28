@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import entities.Categoria;
 import entities.Cuenta;
 import entities.Movimiento;
+import entities.TipoMovimiento;
 
 @WebServlet("/DashboardController")
 public class DashboardController extends HttpServlet {
@@ -88,9 +89,15 @@ public class DashboardController extends HttpServlet {
 		List<Categoria> categorias = Categoria.getSumarizedByDate(mes, anio);
 		List<Movimiento> movimientos = Movimiento.getAll();
 	
+		List<Categoria> categoriasIngreso = Categoria.getCategoriasPorTipo(categorias, TipoMovimiento.INGRESO);
+		List<Categoria> categoriasEgreso = Categoria.getCategoriasPorTipo(categorias, TipoMovimiento.EGRESO);
+		List<Categoria> categoriasTransferencia = Categoria.getCategoriasPorTipo(categorias, TipoMovimiento.TRANSFERENCIA);
+		
 		request.setAttribute("cuentas", cuentas);
 		request.setAttribute("movimientos", movimientos);
-		request.setAttribute("categorias", categorias);
+		request.setAttribute("categoriasIngreso", categoriasIngreso);
+		request.setAttribute("categoriasEgreso", categoriasEgreso);
+		request.setAttribute("categoriasTransferencia", categoriasTransferencia);
 		request.getRequestDispatcher("/jsp/dashboard.jsp").forward(request, response);
 	}
 

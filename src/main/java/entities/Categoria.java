@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -96,6 +97,22 @@ public class Categoria implements Serializable {
         return categorias;
     }
     
+    public static List<Categoria> getCategoriasPorTipo(List<Categoria> categorias, TipoMovimiento tipo){
+    	List<Categoria> categoriasIngreso = new ArrayList();
+    	for(Categoria categoria: categorias) {
+        	if(categoria.getTipo() == tipo) {
+        		categoriasIngreso.add(categoria);
+        	}
+        }
+    	return categoriasIngreso;
+    }
+
+    
+    public static List<Categoria> getByTipo(List<Categoria> categorias, int tipo){
+    	
+    	return null;
+    }
+    
     public static int obtenerMesCorrecto(int mes) {
         if (mes != -1) {
         	return mes;
@@ -104,7 +121,7 @@ public class Categoria implements Serializable {
         int mesActual = calendar.get(Calendar.MONTH) + 1; 
         return mesActual;
     }
-    
+   
     public static int obtenerAnioCorrecto(int anio) {
         if (anio != -1) {
         	return anio;
