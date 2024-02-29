@@ -127,7 +127,6 @@
 							var anioFiltrado = valorInput.substring(0, 4);
 							var mesFiltrado = valorInput.substring(5, 7);
 
-
 							// Crear un formulario dinámicamente
 							var form = document.createElement('form');
 							form.method = 'POST';
@@ -258,30 +257,28 @@
 			</header>
 
 			<main id="transacciones" class="mostrar">
-			<div class="transaccion">
-						<div class="transaccion_icono">
-						
-						</div>
-						<div class="id_transaccion">
-							<p>ID</p>
-						</div>
-						<div class="transaccion_info">
-							<p>Fecha</p>
-						</div>
+				<div class="transaccion">
+					<div class="transaccion_icono"></div>
+					<div class="id_transaccion">
+						<p>ID</p>
+					</div>
+					<div class="transaccion_info">
+						<p>Fecha</p>
+					</div>
 
-						<div class="cuenta">
-							<p>Cuenta</p>
-						</div>
+					<div class="cuenta">
+						<p>Cuenta</p>
+					</div>
 
-						<div class="concepto">
-							<p>Concepto</p>
-						</div>
+					<div class="concepto">
+						<p>Concepto</p>
+					</div>
 
-						<div class="transaccion_monto">
-							<h4>Monto</h4>
-						</div>
-			</div>
-			
+					<div class="transaccion_monto">
+						<h4>Monto</h4>
+					</div>
+				</div>
+
 				<c:forEach items="${movimientos}" var="movimiento">
 
 					<div class="transaccion">
@@ -303,8 +300,7 @@
 									<br />
 								</c:otherwise>
 							</c:choose>
-							<iconify-icon class="icono ${color}" icon="${icono}"
-								width="18"></iconify-icon>
+							<iconify-icon class="icono ${color}" icon="${icono}" width="18"></iconify-icon>
 						</div>
 						<div class="id_transaccion">${movimiento.id}</div>
 						<div class="transaccion_info">
@@ -330,7 +326,7 @@
 						</div>
 
 						<div class="transaccion_monto">
-							<h4>${movimiento.monto} $</h4>
+							<h4>${movimiento.monto}$</h4>
 						</div>
 					</div>
 				</c:forEach>
