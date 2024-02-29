@@ -47,7 +47,7 @@ body {
 }
 
 .label_total::before{
-	content: "Total en el mes actual:";
+	content: "Total en el mes:";
 	color: var(--color-boton-1);
 }
 

@@ -78,7 +78,7 @@
 									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
 								</div>
 								<h4>${cuenta.nombre}</h4>
-								<p>${cuenta.total}</p>
+								<p>${cuenta.total} $</p>
 							</div>
 							<div class="botones_transacciones">
 
@@ -167,7 +167,7 @@
 									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
 								</div>
 								<h4>${categoria.nombre}</h4>
-								<p>${categoria.getMontoTotalMes(mes, anio)}</p>
+								<p>${categoria.getMontoTotalMes(mes, anio)} $</p>
 							</div>
 							<div class="botones_transacciones">
 
@@ -198,7 +198,7 @@
 									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
 								</div>
 								<h4>${categoria.nombre}</h4>
-								<p>${categoria.getMontoTotalMes(mes, anio)}</p>
+								<p>${categoria.getMontoTotalMes(mes, anio)} $</p>
 							</div>
 							<div class="botones_transacciones">
 
@@ -229,7 +229,7 @@
 									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
 								</div>
 								<h4>${categoria.nombre}</h4>
-								<p>${categoria.getMontoTotalMes(mes, anio)}</p>
+								<p>${categoria.getMontoTotalMes(mes, anio)} $</p>
 							</div>
 							<div class="botones_transacciones">
 
@@ -312,6 +312,9 @@
 								<iconify-icon class="icono" icon="mdi:bank" width="20"></iconify-icon>
 							</div>
 							<c:choose>
+								<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
+									<p>${movimiento.origen.nombre} > ${movimiento.destino.nombre}</p>
+								</c:when>
 								<c:when test="${not empty movimiento.origen}">
 									<p>${movimiento.origen.nombre}</p>
 								</c:when>
