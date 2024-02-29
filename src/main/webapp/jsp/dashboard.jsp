@@ -108,6 +108,38 @@
 				</header>
 				
 				<div>
+            		<input type="month" id="fechaFiltro" name="fechaFiltro" onchange="extraerDatos()">
+            		<a 
+						href="DashboardController">
+						<iconify-icon class="icono" 
+                		style="color: white;" icon="ic:baseline-search" width="auto"></iconify-icon>
+					</a>
+					<script>
+        				function extraerDatos() {
+            			// Obtener el valor del campo de entrada
+            			var valorInput = document.getElementById("fechaFiltro").value;
+
+            			// Extraer el año y el mes
+            			var anioFiltrado = valorInput.substring(0, 4);
+            			var mesFiltrado = valorInput.substring(5, 7);
+
+            			// Mostrar los resultados en la consola
+            			console.log("Año:", anioFiltrado);
+            			console.log("Mes:", mesFiltrado);
+            			
+        				}
+        				
+    				</script>
+    			
+        			
+        			
+					
+        		</div>
+        		
+        		
+        		
+				
+				<div>
 					<h4>Categorías de Ingreso</h4>
 					
 				</div>
