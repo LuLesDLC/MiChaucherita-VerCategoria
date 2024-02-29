@@ -205,7 +205,7 @@
 
 								<a
 									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
-									<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
+									<iconify-icon icon="ph:arrow-up-bold" width="18"></iconify-icon>
 									<span class="texto_boton">Movimientos</span>
 								</a>
 
@@ -236,7 +236,7 @@
 
 								<a
 									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
-									<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
+									<iconify-icon icon="mingcute:transfer-fill" width="18"></iconify-icon>
 									<span class="texto_boton">Movimientos</span>
 								</a>
 
@@ -258,6 +258,30 @@
 			</header>
 
 			<main id="transacciones" class="mostrar">
+			<div class="transaccion">
+						<div class="transaccion_icono">
+						
+						</div>
+						<div class="id_transaccion">
+							<p>ID</p>
+						</div>
+						<div class="transaccion_info">
+							<p>Fecha</p>
+						</div>
+
+						<div class="cuenta">
+							<p>Cuenta</p>
+						</div>
+
+						<div class="concepto">
+							<p>Concepto</p>
+						</div>
+
+						<div class="transaccion_monto">
+							<h4>Monto</h4>
+						</div>
+			</div>
+			
 				<c:forEach items="${movimientos}" var="movimiento">
 
 					<div class="transaccion">
@@ -265,18 +289,21 @@
 							<c:choose>
 								<c:when test="${movimiento.tipo=='EGRESO'}">
 									<c:set var="color" value="retiro_color" />
+									<c:set var="icono" value="ph:arrow-up-bold" />
 									<br />
 								</c:when>
 								<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
 									<c:set var="color" value="transferencia_color" />
+									<c:set var="icono" value="mingcute:transfer-fill" />
 									<br />
 								</c:when>
 								<c:otherwise>
 									<c:set var="color" value="deposito_color" />
+									<c:set var="icono" value="ph:arrow-down-bold" />
 									<br />
 								</c:otherwise>
 							</c:choose>
-							<iconify-icon class="icono ${color}" icon="ph:arrow-down-bold"
+							<iconify-icon class="icono ${color}" icon="${icono}"
 								width="18"></iconify-icon>
 						</div>
 						<div class="id_transaccion">${movimiento.id}</div>
@@ -303,7 +330,7 @@
 						</div>
 
 						<div class="transaccion_monto">
-							<h4>${movimiento.monto}</h4>
+							<h4>${movimiento.monto} $</h4>
 						</div>
 					</div>
 				</c:forEach>
