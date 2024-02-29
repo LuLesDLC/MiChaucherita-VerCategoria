@@ -106,12 +106,6 @@ public class Categoria implements Serializable {
         }
     	return categoriasIngreso;
     }
-
-    
-    public static List<Categoria> getByTipo(List<Categoria> categorias, int tipo){
-    	
-    	return null;
-    }
     
     public static int obtenerMesCorrecto(int mes) {
         if (mes != -1) {
@@ -130,17 +124,6 @@ public class Categoria implements Serializable {
         int anioActual = calendar.get(Calendar.YEAR); 
         return anioActual;
 	}
-
-	@SuppressWarnings("unchecked")
-	public static List<Categoria> getAllOfIngresoType() {
-    	EntityManager em = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
-    	String consultaJPQL = "SELECT t FROM Categoria t WHERE t.tipo= :mitipo";
-    	Query query =  em.createQuery(consultaJPQL);
-    	query.setParameter("mitipo", TipoMovimiento.INGRESO);
-    	
-    	return (List<Categoria>)query.getResultList();
-    	
-    }
 
     public double getMontoTotalMes(int mes, int anio) {
     	if (this.tipo == TipoMovimiento.TRANSFERENCIA) {

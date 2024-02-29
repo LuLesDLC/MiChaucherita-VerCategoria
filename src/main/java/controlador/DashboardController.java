@@ -48,11 +48,6 @@ public class DashboardController extends HttpServlet {
 		}
 		
 	}
-	
-	private void verMovimientos(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private void verCategoria(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -63,18 +58,15 @@ public class DashboardController extends HttpServlet {
 		int mes = Integer.parseInt(session.getAttribute("mes").toString());
 		int anio = Integer.parseInt(session.getAttribute("anio").toString()); 
 		int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
+		
 		Categoria categoria = Categoria.getById(idCategoria);
 		List<Movimiento> movimientos = Movimiento.getMovimientosByCategoriaByMes(anio, mes, idCategoria);
 		double total = Movimiento.getMontoTotalFromMovimientos(movimientos);
+		
 		request.setAttribute("categoria", categoria);
 		request.setAttribute("movimientos", movimientos);
 		request.setAttribute("total", total);
 		request.getRequestDispatcher("/jsp/categoria.jsp").forward(request, response);
-	}
-
-	private void verCuenta(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private void verDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

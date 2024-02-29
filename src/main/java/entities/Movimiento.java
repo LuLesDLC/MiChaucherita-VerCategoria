@@ -121,11 +121,6 @@ public class Movimiento implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Movimiento> getAllByCuenta(int idCuenta) {
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
 	public static List<Movimiento> getAll() {
 		EntityManager em = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
 		String consulta = "SELECT m FROM Movimiento m";

@@ -59,10 +59,10 @@ public class RegistrarMovimientosController extends HttpServlet {
 		// 1.- obtengo datos
 		int idCuenta = Integer.parseInt(request.getParameter("idCuenta"));
 		// 2.- Llamo al Modelo
-		List<Categoria> categoria = Categoria.getAllOfIngresoType();
+		// List<Categoria> categoria = Categoria.getAllOfIngresoType();
 		Cuenta cuenta = Cuenta.getById(idCuenta);
 		// 3.- llamo a la vista
-		request.setAttribute("categorias", categoria);
+		// request.setAttribute("categorias", categoria);
 		request.setAttribute("cuenta", cuenta);
 		request.getRequestDispatcher("/jsp/ingreso.jsp").forward(request, response);
 
