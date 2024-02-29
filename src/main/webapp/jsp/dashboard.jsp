@@ -78,7 +78,7 @@
 									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
 								</div>
 								<h4>${cuenta.nombre}</h4>
-								<p>${cuenta.total} $</p>
+								<p>${cuenta.total}$</p>
 							</div>
 							<div class="botones_transacciones">
 
@@ -152,99 +152,125 @@
 					</script>
 				</div>
 
+				<c:if test="${not empty categoriasIngreso}">
 
-				<div>
-					<h4>Categorías de Ingreso</h4>
+					<div>
+						<h4>Categorías de Ingreso</h4>
 
-				</div>
-				<main class="clasificacion">
+					</div>
 
+					<main class="clasificacion">
+						<c:set var="total" value="0.0" />
+						<c:set var="total_cat" value="0.0" />
 
-					<c:forEach items="${categoriasIngreso}" var="categoria">
-						<div class="card-cuenta">
-							<div>
-								<div class=" cuenta_icono">
-									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+						<c:forEach items="${categoriasIngreso}" var="categoria">
+							<div class="card-cuenta">
+								<div>
+									<div class=" cuenta_icono">
+										<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+									</div>
+									<h4>${categoria.nombre}</h4>
+									<c:set var="total_cat"
+										value="${categoria.getMontoTotalMes(mes, anio)}" />
+
+									<p>${total_cat}$</p>
 								</div>
-								<h4>${categoria.nombre}</h4>
-								<p>${categoria.getMontoTotalMes(mes, anio)} $</p>
-							</div>
-							<div class="botones_transacciones">
+								<div class="botones_transacciones">
 
-								<a
-									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
-									<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
-									<span class="texto_boton">Movimientos</span>
-								</a>
+									<a
+										href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
+										<iconify-icon icon="ph:arrow-down-bold" width="18"></iconify-icon>
+										<span class="texto_boton">Movimientos</span>
+									</a>
 
-							</div>
-						</div>
-
-					</c:forEach>
-				</main>
-
-				<div>
-					<h4>Categorías de Egreso</h4>
-
-				</div>
-
-				<main class="clasificacion">
-
-
-					<c:forEach items="${categoriasEgreso}" var="categoria">
-						<div class="card-cuenta">
-							<div>
-								<div class=" cuenta_icono">
-									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
 								</div>
-								<h4>${categoria.nombre}</h4>
-								<p>${categoria.getMontoTotalMes(mes, anio)} $</p>
 							</div>
-							<div class="botones_transacciones">
+							<c:set var="total" value="${total + total_cat}" />
 
-								<a
-									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
-									<iconify-icon icon="ph:arrow-up-bold" width="18"></iconify-icon>
-									<span class="texto_boton">Movimientos</span>
-								</a>
+						</c:forEach>
 
-							</div>
-						</div>
+					</main>
+					<h5>Total de ingresos: $ ${total}</h5>
+					<br>
+				</c:if>
+				<c:if test="${not empty categoriasEgreso }">
+					<div>
+						<h4>Categorías de Egreso</h4>
 
-					</c:forEach>
-				</main>
+					</div>
 
-				<div>
-					<h4>Categorías de Transferencia</h4>
-
-				</div>
-
-				<main class="clasificacion">
+					<main class="clasificacion">
 
 
-					<c:forEach items="${categoriasTransferencia}" var="categoria">
-						<div class="card-cuenta">
-							<div>
-								<div class=" cuenta_icono">
-									<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+						<c:set var="total" value="0.0" />
+						<c:set var="total_cat" value="0.0" />
+						<c:forEach items="${categoriasEgreso}" var="categoria">
+							<div class="card-cuenta">
+								<div>
+									<div class=" cuenta_icono">
+										<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+									</div>
+									<h4>${categoria.nombre}</h4>
+									<c:set var="total_cat"
+										value="${categoria.getMontoTotalMes(mes, anio)}" />
+									<p>${total_cat}$</p>
 								</div>
-								<h4>${categoria.nombre}</h4>
-								<p>${categoria.getMontoTotalMes(mes, anio)} $</p>
+								<div class="botones_transacciones">
+
+									<a
+										href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
+										<iconify-icon icon="ph:arrow-up-bold" width="18"></iconify-icon>
+										<span class="texto_boton">Movimientos</span>
+									</a>
+
+								</div>
 							</div>
-							<div class="botones_transacciones">
+							<c:set var="total" value="${total + total_cat}" />
 
-								<a
-									href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
-									<iconify-icon icon="mingcute:transfer-fill" width="18"></iconify-icon>
-									<span class="texto_boton">Movimientos</span>
-								</a>
+						</c:forEach>
+					</main>
+					<h5>Total de Egresos: $ ${total}</h5>
+<br>
+				</c:if>
+				<c:if test="${not empty categoriasTransferencia }">
 
+					<div>
+						<h4>Categorías de Transferencia</h4>
+
+					</div>
+
+					<main class="clasificacion">
+
+						<c:set var="total" value="0.0" />
+						<c:set var="total_cat" value="0.0" />
+						<c:forEach items="${categoriasTransferencia}" var="categoria">
+							<div class="card-cuenta">
+								<div>
+									<div class=" cuenta_icono">
+										<iconify-icon class="icono" icon="mdi:bank" width="32"></iconify-icon>
+									</div>
+									<h4>${categoria.nombre}</h4>
+									<c:set var="total_cat"
+										value="${categoria.getMontoTotalMes(mes, anio)}" />
+									<p>${total_cat}$</p>
+								</div>
+								<div class="botones_transacciones">
+
+									<a
+										href="DashboardController?ruta=verCategoria&idCategoria=${categoria.id}">
+										<iconify-icon icon="mingcute:transfer-fill" width="18"></iconify-icon>
+										<span class="texto_boton">Movimientos</span>
+									</a>
+
+								</div>
 							</div>
-						</div>
+							<c:set var="total" value="${total + total_cat}" />
 
-					</c:forEach>
-				</main>
-
+						</c:forEach>
+					</main>
+					<h5>Total de Transferencia: $ ${total}</h5>
+<br>
+				</c:if>
 			</div>
 
 		</div>
@@ -313,7 +339,8 @@
 							</div>
 							<c:choose>
 								<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
-									<p>${movimiento.origen.nombre} > ${movimiento.destino.nombre}</p>
+									<p>${movimiento.origen.nombre}>
+										${movimiento.destino.nombre}</p>
 								</c:when>
 								<c:when test="${not empty movimiento.origen}">
 									<p>${movimiento.origen.nombre}</p>
