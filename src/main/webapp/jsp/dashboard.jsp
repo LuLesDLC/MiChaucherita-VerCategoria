@@ -24,7 +24,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:set var="mes" value="${sessionScope.mes}" />
-			<c:set var="anio" value="${sessionScope.mes}" />
+			<c:set var="anio" value="${sessionScope.anio}" />
 			<!-- Si el mes en la sesión no está vacío, utiliza el valor de la sesión -->
 		</c:otherwise>
 	</c:choose>
@@ -106,46 +106,61 @@
 				<header class="header_contenedor">
 					<h3>Resumen por categoría</h3>
 				</header>
-				
+
 				<div>
-            		<input type="month" id="fechaFiltro" name="fechaFiltro" onchange="extraerDatos()">
-            		<a 
-						href="DashboardController">
-						<iconify-icon class="icono" 
-                		style="color: white;" icon="ic:baseline-search" width="auto"></iconify-icon>
-					</a>
+					<input type="month" id="fechaFiltro" name="fechaFiltro"
+						placeholder="yyyy-mm">
+					<button onclick="extraerDatos()">Buscar</button>
 					<script>
-        				function extraerDatos() {
-            			// Obtener el valor del campo de entrada
-            			var valorInput = document.getElementById("fechaFiltro").value;
+						function extraerDatos() {
+							// Obtener el valor del campo de entrada
+							var valorInput = document
+									.getElementById("fechaFiltro").value;
 
-            			// Extraer el año y el mes
-            			var anioFiltrado = valorInput.substring(0, 4);
-            			var mesFiltrado = valorInput.substring(5, 7);
+							var regex = /^(19|20)\d{2}-(0[1-9]|1[0-2])$/; // Año entre 1900 y 2099, mes entre 01 y 12
+							if (!regex.test(valorInput)) {
+								alert("El formato de la fecha no es válido (yyyy-mm)");
+								return; // Detener la ejecución si el formato es incorrecto
+							}
 
-            			// Mostrar los resultados en la consola
-            			console.log("Año:", anioFiltrado);
-            			console.log("Mes:", mesFiltrado);
-            			
-        				}
-        				
-    				</script>
-    			
-        			
-        			
-					
-        		</div>
-        		
-        		
-        		
-				
+							// Extraer el año y el mes
+							var anioFiltrado = valorInput.substring(0, 4);
+							var mesFiltrado = valorInput.substring(5, 7);
+
+
+							// Crear un formulario dinámicamente
+							var form = document.createElement('form');
+							form.method = 'POST';
+							form.action = 'DashboardController';
+
+							// Crear campos ocultos para enviar los datos
+							var mesField = document.createElement('input');
+							mesField.type = 'hidden';
+							mesField.name = 'mes';
+							mesField.value = mesFiltrado;
+							form.appendChild(mesField);
+
+							var anioField = document.createElement('input');
+							anioField.type = 'hidden';
+							anioField.name = 'anio';
+							anioField.value = anioFiltrado;
+							form.appendChild(anioField);
+
+							// Agregar el formulario al cuerpo del documento y enviarlo
+							document.body.appendChild(form);
+							form.submit();
+						}
+					</script>
+				</div>
+
+
 				<div>
 					<h4>Categorías de Ingreso</h4>
-					
+
 				</div>
 				<main class="clasificacion">
-				
-				
+
+
 					<c:forEach items="${categoriasIngreso}" var="categoria">
 						<div class="card-cuenta">
 							<div>
@@ -168,15 +183,15 @@
 
 					</c:forEach>
 				</main>
-				
+
 				<div>
 					<h4>Categorías de Egreso</h4>
-					
+
 				</div>
-				
+
 				<main class="clasificacion">
-				
-				
+
+
 					<c:forEach items="${categoriasEgreso}" var="categoria">
 						<div class="card-cuenta">
 							<div>
@@ -199,15 +214,15 @@
 
 					</c:forEach>
 				</main>
-				
+
 				<div>
 					<h4>Categorías de Transferencia</h4>
-					
+
 				</div>
-				
+
 				<main class="clasificacion">
-				
-				
+
+
 					<c:forEach items="${categoriasTransferencia}" var="categoria">
 						<div class="card-cuenta">
 							<div>
@@ -230,9 +245,9 @@
 
 					</c:forEach>
 				</main>
-				
+
 			</div>
-			
+
 		</div>
 
 		<!-- TRANSACCIONES RECIENTES -->
@@ -247,22 +262,22 @@
 
 					<div class="transaccion">
 						<div class="transaccion_icono">
-						<c:choose>
-    						<c:when test="${movimiento.tipo=='EGRESO'}">
-        						<c:set var="color" value="retiro_color" />
-        						<br/>
-    						</c:when>
-    						<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
-        						<c:set var="color" value="transferencia_color" />
-        						<br/>
-    						</c:when>
-    						<c:otherwise>
-        						<c:set var="color" value="deposito_color" />
-        						<br/>
-    						</c:otherwise>
-						</c:choose>
-							<iconify-icon class="icono ${color}"
-								icon="ph:arrow-down-bold" width="18"></iconify-icon>
+							<c:choose>
+								<c:when test="${movimiento.tipo=='EGRESO'}">
+									<c:set var="color" value="retiro_color" />
+									<br />
+								</c:when>
+								<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
+									<c:set var="color" value="transferencia_color" />
+									<br />
+								</c:when>
+								<c:otherwise>
+									<c:set var="color" value="deposito_color" />
+									<br />
+								</c:otherwise>
+							</c:choose>
+							<iconify-icon class="icono ${color}" icon="ph:arrow-down-bold"
+								width="18"></iconify-icon>
 						</div>
 						<div class="id_transaccion">${movimiento.id}</div>
 						<div class="transaccion_info">

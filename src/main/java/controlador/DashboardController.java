@@ -82,13 +82,18 @@ public class DashboardController extends HttpServlet {
 		if (session.getAttribute("mes") == null || session.getAttribute("anio") == null) {
 		    session.setAttribute("mes", -1);
 		    session.setAttribute("anio", -1);
-		} 
+		}else {
+			session.setAttribute("mes", request.getParameter("mes"));
+		    session.setAttribute("anio", request.getParameter("anio"));
+		}
+		
 		int mes = Integer.parseInt(session.getAttribute("mes").toString());
 		int anio = Integer.parseInt(session.getAttribute("anio").toString()); 
 		List<Cuenta> cuentas = Cuenta.getSumarized();
 		List<Categoria> categorias = Categoria.getSumarizedByDate(mes, anio);
 		List<Movimiento> movimientos = Movimiento.getAll();
-	
+
+
 		List<Categoria> categoriasIngreso = Categoria.getCategoriasPorTipo(categorias, TipoMovimiento.INGRESO);
 		List<Categoria> categoriasEgreso = Categoria.getCategoriasPorTipo(categorias, TipoMovimiento.EGRESO);
 		List<Categoria> categoriasTransferencia = Categoria.getCategoriasPorTipo(categorias, TipoMovimiento.TRANSFERENCIA);
