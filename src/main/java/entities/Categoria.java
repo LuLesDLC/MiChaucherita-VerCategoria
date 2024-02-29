@@ -143,18 +143,22 @@ public class Categoria implements Serializable {
     }
 
     public double getMontoTotalMes(int mes, int anio) {
-        EntityManager entityManager = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
-        TypedQuery<Double> query = entityManager.createQuery(
-                "SELECT SUM(m.monto) FROM Movimiento m " +
-                        "WHERE m.categoria.id = :idCategoria " +
-                        "AND FUNCTION('MONTH', m.fecha) = :mes " +
-                        "AND FUNCTION('YEAR', m.fecha) = :anio",
-                Double.class);
-        query.setParameter("idCategoria", this.id);
-        query.setParameter("mes", obtenerMesCorrecto(mes));
-        query.setParameter("anio", obtenerAnioCorrecto(anio));
-        Double sumaMovimientos = query.getSingleResult();
-        return sumaMovimientos != null ? sumaMovimientos : 0.0;
+    	if (this.tipo == TipoMovimiento.TRANSFERENCIA) {
+    		return 0;
+    	} else {
+            EntityManager entityManager = Persistence.createEntityManagerFactory("persistencia").createEntityManager();
+            TypedQuery<Double> query = entityManager.createQuery(
+                    "SELECT SUM(m.monto) FROM Movimiento m " +
+                            "WHERE m.categoria.id = :idCategoria " +
+                            "AND FUNCTION('MONTH', m.fecha) = :mes " +
+                            "AND FUNCTION('YEAR', m.fecha) = :anio",
+                    Double.class);
+            query.setParameter("idCategoria", this.id);
+            query.setParameter("mes", obtenerMesCorrecto(mes));
+            query.setParameter("anio", obtenerAnioCorrecto(anio));
+            Double sumaMovimientos = query.getSingleResult();
+            return sumaMovimientos != null ? sumaMovimientos : 0.0;
+    	}
     }
 
 }
