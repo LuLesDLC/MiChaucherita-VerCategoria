@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Chauchera</title>
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/styleCategoria.css">
 <script
 	src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
@@ -29,7 +29,7 @@
 			<p>Usuario</p>
 		</button>
 		<div>
-			<a href=""> <iconify-icon class="icono" icon="carbon:view-filled"
+			<a href="javascript:history.back()"> <iconify-icon class="icono" icon="carbon:view-filled"
 					width="18"></iconify-icon> <span>Dashboard</span>
 			</a>
 		</div>
@@ -38,9 +38,9 @@
 	<div class="contenedor_form">
 		<c:set var="categoria" value="${requestScope.categoria}" />
 		<div class="encabezado">
-			<h2>Nombre de la Categoría: ${categoria.nombre}</h2>
-			<p>Tipo: ${categoria.tipo }</p>
-			<p>Total en el mes actual:  ${total}</p>
+			<h2> ${categoria.nombre}</h2>
+			<p class='label_tipo'> ${categoria.tipo }</p>
+			<p class='label_total'>  ${total}</p>
 		</div>
 	</div>
 
@@ -56,8 +56,22 @@
 			<c:forEach items="${movimientos}" var="movimiento">
 				<div class="transaccion">
 					<div class="transaccion_icono">
-						<iconify-icon class="icono deposito_color"
-							icon="ph:arrow-down-bold" width="18"></iconify-icon>
+						<c:choose>
+    						<c:when test="${movimiento.tipo=='EGRESO'}">
+        						<c:set var="color" value="retiro_color" />
+        						<br/>
+    						</c:when>
+    						<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
+        						<c:set var="color" value="transferencia_color" />
+        						<br/>
+    						</c:when>
+    						<c:otherwise>
+        						<c:set var="color" value="deposito_color" />
+        						<br/>
+    						</c:otherwise>
+						</c:choose>
+							<iconify-icon class="icono ${color}"
+								icon="ph:arrow-down-bold" width="18"></iconify-icon>
 					</div>
 					<div class="id_transaccion">${movimiento.id}</div>
 					<div class="transaccion_info">

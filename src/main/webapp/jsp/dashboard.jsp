@@ -215,7 +215,21 @@
 
 					<div class="transaccion">
 						<div class="transaccion_icono">
-							<iconify-icon class="icono deposito_color"
+						<c:choose>
+    						<c:when test="${movimiento.tipo=='EGRESO'}">
+        						<c:set var="color" value="retiro_color" />
+        						<br/>
+    						</c:when>
+    						<c:when test="${movimiento.tipo=='TRANSFERENCIA'}">
+        						<c:set var="color" value="transferencia_color" />
+        						<br/>
+    						</c:when>
+    						<c:otherwise>
+        						<c:set var="color" value="deposito_color" />
+        						<br/>
+    						</c:otherwise>
+						</c:choose>
+							<iconify-icon class="icono ${color}"
 								icon="ph:arrow-down-bold" width="18"></iconify-icon>
 						</div>
 						<div class="id_transaccion">${movimiento.id}</div>

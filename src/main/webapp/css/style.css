@@ -248,6 +248,10 @@ label{
   color: var(--color-positivo);
 }
 
+.transferencia_color {
+  color: var(--color-boton-1);
+}
+
 #transacciones {
   overflow: hidden;
 }
